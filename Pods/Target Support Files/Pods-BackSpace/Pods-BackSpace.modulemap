@@ -1,0 +1,6 @@
+framework module Pods_BackSpace {
+  umbrella header "Pods-BackSpace-umbrella.h"
+
+  export *
+  module * { export * }
+}
