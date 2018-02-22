@@ -35,18 +35,18 @@ extension FeedVC: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messageArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell") as? FeedCell else { return UITableViewCell() }
-        let image = UIImage(named: "defaultProfileImage")!
-        
         let message = messageArray[indexPath.row]
         DataService.shared.getUserName(forUid: message.senderId) { (returnedUserName) in
-            cell.configureCell(profileImage: image, email: returnedUserName, content: message.content)
+            StorageService.shared.downloadTask(forCurrentUserId: message.senderId, handler: { (returnedImage) in
+                cell.configureCell(profileImage: returnedImage, email: returnedUserName, content: message.content)
+            })
         }
         return cell
     }

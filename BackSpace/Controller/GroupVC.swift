@@ -29,7 +29,6 @@ class GroupVC: UIViewController {
                 self.tableView.reloadData()
             }
         }
-        
     }
 }
 
@@ -54,6 +53,5 @@ extension GroupVC: UITableViewDelegate, UITableViewDataSource {
         guard let groupFeedVC = storyboard?.instantiateViewController(withIdentifier: GROUP_FEED_VC) as? GroupFeedVC else { return }
         groupFeedVC.initData(forGroup: groupsArray[indexPath.row])
         presentDetail(groupFeedVC)
-//        present(groupFeedVC, animated: true, completion: nil)
     }
 }

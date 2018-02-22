@@ -17,6 +17,7 @@
 		8AD3593C202B378900FF7DB0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8AD3593B202B378900FF7DB0 /* GoogleService-Info.plist */; };
 		8AD3593E202B3B4200FF7DB0 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD3593D202B3B4200FF7DB0 /* DataService.swift */; };
 		8AD35941202B3BAF00FF7DB0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD35940202B3BAF00FF7DB0 /* Constants.swift */; };
+		B6668CCA203EE5EE007D4849 /* UIImageView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6668CC9203EE5EE007D4849 /* UIImageView+Additions.swift */; };
 		B6743046203C546400866D3D /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6743045203C546400866D3D /* GroupCell.swift */; };
 		B6743048203C8EB900866D3D /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6743047203C8EB900866D3D /* Group.swift */; };
 		B674304A203C97AF00866D3D /* GroupFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6743049203C97AF00866D3D /* GroupFeedCell.swift */; };
@@ -51,6 +52,7 @@
 		8AD3593B202B378900FF7DB0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8AD3593D202B3B4200FF7DB0 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		8AD35940202B3BAF00FF7DB0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B6668CC9203EE5EE007D4849 /* UIImageView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Additions.swift"; sourceTree = "<group>"; };
 		B6743045203C546400866D3D /* GroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
 		B6743047203C8EB900866D3D /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		B6743049203C97AF00866D3D /* GroupFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupFeedCell.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			children = (
 				B6DAFBCB203B501E000CD658 /* UiView+Additions.swift */,
 				B674304D203CB19500866D3D /* UiViewController+Additions.swift */,
+				B6668CC9203EE5EE007D4849 /* UIImageView+Additions.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				B686D049203B8E8300018210 /* UserCell.swift in Sources */,
 				B6EC18A32039C9200042DDF3 /* InsetTextField.swift in Sources */,
 				B6743048203C8EB900866D3D /* Group.swift in Sources */,
+				B6668CCA203EE5EE007D4849 /* UIImageView+Additions.swift in Sources */,
 				B67F9F37203D7A990059F5B3 /* RoundedImageView.swift in Sources */,
 				8AD35927202B35BF00FF7DB0 /* GroupVC.swift in Sources */,
 				8AD35923202B35BF00FF7DB0 /* AppDelegate.swift in Sources */,

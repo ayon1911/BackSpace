@@ -24,6 +24,9 @@ class CreatePostVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.emailLbl.text = Auth.auth().currentUser?.email
+        StorageService.shared.downloadTask(forCurrentUserId: (Auth.auth().currentUser?.uid)!) { (returnedImage) in
+            self.profileImage.image = returnedImage
+        }
     }
 
     @IBAction func closeBtnPressed(_ sender: Any) {
@@ -37,8 +40,6 @@ class CreatePostVC: UIViewController {
                 if success {
                     self.sendBtn.isEnabled = true
                     self.dismiss(animated: true, completion: nil)
-                    
-                    
                 } else {
                     debugPrint(error as Any)
                 }

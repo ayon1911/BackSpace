@@ -32,4 +32,9 @@ class AuthService {
             loginComplete(true, nil)
         }
     }
+    
+    func addProfileImage(withUrl url: String, handler: @escaping handler) {
+        DataService.shared.REF_USER.child((Auth.auth().currentUser?.uid)!).updateChildValues(["profileUrl" : url])
+        handler(true, nil)
+    }
 }

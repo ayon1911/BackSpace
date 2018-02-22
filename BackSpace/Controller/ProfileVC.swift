@@ -24,15 +24,17 @@ class ProfileVC: UIViewController {
         // Do any additional setup after loading the view.
         let tap = UITapGestureRecognizer(target: self, action: #selector(addTapedAction(_:)))
         profileImage.addGestureRecognizer(tap)
-        StorageService.shared.downloadTask(filename: (Auth.auth().currentUser?.uid)!) { (returnedImg) in
-            self.profileImage.image = returnedImg
-        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.emailLbl.text = Auth.auth().currentUser?.email
-        
+        DataService.shared.REF_USER.observe(.value) { (snapshot) in
+            StorageService.shared.downloadTask(forCurrentUserId: (Auth.auth().currentUser?.uid)!) { (returnedImage) in
+                self.profileImage.image = returnedImage
+            }
+        }
     }
     
     @IBAction func signOutBtnPressed(_ sender: Any) {
@@ -63,8 +65,7 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            profileImage.image = pickedImage
-            StorageService.shared.uploadTask(forImage: profileImage.image!, andFileName: (Auth.auth().currentUser?.uid)!, handler: { (success, error) in
+            StorageService.shared.uploadTask(forImage: pickedImage, andFileName: (Auth.auth().currentUser?.uid)!, handler: { (success, error) in
                 if success {
                     print("Upload Successfull")
                 } else {

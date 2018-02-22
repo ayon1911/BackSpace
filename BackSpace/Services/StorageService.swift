@@ -14,7 +14,7 @@ class StorageService {
     
     private var _REF_BASE = STORAGE
     private var _REF_PROFILEIMAGES = STORAGE.child("Images")
-    private var _image = UIImage()
+    private var _PROFILE_IMAGE_URL: String?
     
     var REF_BASE: StorageReference {
         return _REF_BASE
@@ -22,7 +22,6 @@ class StorageService {
     var REF_PROFILEIMAGES: StorageReference {
         return _REF_PROFILEIMAGES
     }
-    
     
     func uploadTask(forImage image: UIImage, andFileName filename: String, handler: @escaping handler) {
         guard let data = UIImageJPEGRepresentation(image, 0.5) else { return }
@@ -32,6 +31,14 @@ class StorageService {
             print("Upload task finished")
             print(metadata ?? "No metadata found")
             print(error ?? "No errors")
+            if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
+                print("The url is \(profileImageUrl)")
+                AuthService.shared.addProfileImage(withUrl: profileImageUrl, handler: { (success, error) in
+                    if error == nil {
+                        print("success haha")
+                    }
+                })
+            }
         }
         uploadTask.observe(.progress) { (uploadSnapShot) in
             print(uploadSnapShot.progress ?? "No more progress")
@@ -40,22 +47,39 @@ class StorageService {
         handler(true, nil)
     }
     
-    func downloadTask(filename: String, handler: @escaping (_ image: UIImage) -> ()) {
-        let downloadTaskRef = REF_PROFILEIMAGES.child("\(filename).jpg")
-        let downloadTask = downloadTaskRef.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
-            
-            if error == nil {
-                guard let data = data else { return }
-                DispatchQueue.main.async {
-                    guard let img = UIImage(data: data) else { return }
-                    handler(img)
+    func downloadTask(forCurrentUserId uid: String, handler: @escaping (_ image: UIImage) -> ()) {
+        let imageCache = NSCache<NSString, UIImage>()
+        DataService.shared.REF_USER.observeSingleEvent(of: .value, with: { (userSnapShot) in
+            guard let userSnapShot = userSnapShot.children.allObjects as? [DataSnapshot] else { return }
+            for user in userSnapShot {
+                if user.key == uid && user.hasChild("profileUrl"){
+                    let imageurl = user.childSnapshot(forPath: "profileUrl").value as! String
+                    guard let url = URL(string: imageurl) else { return }
+                    
+                    if let cachedImage = imageCache.object(forKey: url.absoluteString as NSString) {
+                        handler(cachedImage)
+                        return
+                    } else {
+                        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+                            if error == nil {
+                                DispatchQueue.main.async {
+                                    if let data = data {
+                                        let profileImage = UIImage(data: data)
+                                        imageCache.setObject(profileImage!, forKey: url.absoluteString as NSString)
+                                        handler(profileImage!)
+                                    }
+                                }
+                            }
+                        }).resume()
+                    }
                 }
             }
-        }
-        downloadTask.observe(.progress) { (snapShot) in
-            print(snapShot.progress as Any)
-        }
-        downloadTask.resume()
+        })
     }
 }
+
+
+
+
+
 
